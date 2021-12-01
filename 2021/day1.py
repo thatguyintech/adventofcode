@@ -1,3 +1,5 @@
+# https://adventofcode.com/2021/day/1
+
 # signal strength 0-50 stars
 # get all fifty stars
 
@@ -50,3 +52,44 @@ assert(count_increases(parse('example4.txt')) == 0)
 ## FINAL ANSWER ##
 ##################
 assert(count_increases(parse('day1-input.txt')) == 1387)
+
+
+
+
+########## Part 2 ##########
+
+# three-measurement sliding window
+# 199  A      
+# 200  A B    
+# 208  A B C  
+# 210    B C D
+# 200  E   C D
+# 207  E F   D
+# 240  E F G  
+# 269    F G H
+# 260      G H
+# 263        H
+
+def windows(depth_arr, window_size):
+    windows_arr = []
+    for i in range(len(depth_arr)-(window_size-1)):
+        current_window = 0
+        for k in range(window_size):
+            current_window += depth_arr[i+k]
+        windows_arr.append(current_window)
+    
+    return windows_arr
+
+###########
+## TESTS ##
+###########
+assert(count_increases(windows(parse('example1.txt'), 3)) == 5)
+assert(count_increases(windows(parse('example2.txt'), 3)) == 0)
+assert(count_increases(windows(parse('example3.txt'), 3)) == 1)
+assert(count_increases(windows(parse('example4.txt'), 3)) == 0)
+assert(count_increases(windows(parse('example5.txt'), 3)) == 2)
+
+##################
+## FINAL ANSWER ##
+##################
+assert(count_increases(windows(parse('day1-input.txt'), 3)) == 1362)
