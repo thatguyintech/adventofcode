@@ -42,6 +42,12 @@ for dir, amt in directions:
     p0 = p0.move(dir, int(amt))
 assert(p0.x * p0.y == 1989265)
 
+directions2 = parse("day2-input-twitter.txt")
+p0 = Point()
+for dir, amt in directions2:
+    p0 = p0.move(dir, int(amt))
+assert(p0.x * p0.y == 1250395)
+
 ## Part 2 ##
 
 # aim, horiztonal, depth
@@ -78,5 +84,9 @@ class Point2:
 aim_point = Point2()
 for dir, amt in directions:
     aim_point = aim_point.move(dir, int(amt))
-print(aim_point.x * aim_point.y )
 assert(aim_point.x * aim_point.y == 2089174012)
+
+aim_point = Point2()
+for dir, amt in directions2:
+    aim_point = aim_point.move(dir, int(amt))
+assert(aim_point.x * aim_point.y == 1451210346)
