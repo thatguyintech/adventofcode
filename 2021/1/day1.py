@@ -52,6 +52,7 @@ assert(count_increases(parse('example4.txt')) == 0)
 ## FINAL ANSWER ##
 ##################
 assert(count_increases(parse('day1-input.txt')) == 1387)
+assert(count_increases(parse('day1-input-twitter.txt')) == 1139)
 
 
 
@@ -93,3 +94,4 @@ assert(count_increases(windows(parse('example5.txt'), 3)) == 2)
 ## FINAL ANSWER ##
 ##################
 assert(count_increases(windows(parse('day1-input.txt'), 3)) == 1362)
+assert(count_increases(windows(parse('day1-input-twitter.txt'), 3)) == 1103)

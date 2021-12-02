@@ -36,17 +36,47 @@ class Point:
             new_y -= amt
         return Point(new_x, new_y)
 
-p0 = Point(0,0)
-p1 = p0.move("forward", 2)
-assert(p1.x == 2 and p1.y == 0)
-p2 = p1.move("down", 2)
-assert(p2.x == 2 and p2.y == 2)
-p3 = p2.move("up", 2)
-assert(p3.x == 2 and p3.y == 0)
-
 directions = parse("day2-input.txt")
+p0 = Point()
 for dir, amt in directions:
     p0 = p0.move(dir, int(amt))
-print(p0.x, p0.y)
-assert(p0.x == 2083 and p0.y == 955)
-print(p0.x * p0.y)
+assert(p0.x * p0.y == 1989265)
+
+## Part 2 ##
+
+# aim, horiztonal, depth
+# down increases aim
+# up decreases aim
+# forward increases horizontal, increases depth by aim * X
+
+# forward 5
+# down 5
+# forward 8
+# up 3
+# down 8
+# forward 2
+
+# output: horizontal 15, depth 60, mult = 900
+
+class Point2:
+    def __init__(self, x=0, y=0, aim=0):
+        self.x = x
+        self.y = y
+        self.aim = aim
+    
+    def move(self, dir, amt):
+        new_x, new_y = self.x, self.y
+        if dir == "forward":
+            new_x += amt
+            new_y += self.aim * amt
+        elif dir == "down":
+            self.aim += amt
+        elif dir == "up":
+            self.aim -= amt
+        return Point2(new_x, new_y, self.aim)
+
+aim_point = Point2()
+for dir, amt in directions:
+    aim_point = aim_point.move(dir, int(amt))
+print(aim_point.x * aim_point.y )
+assert(aim_point.x * aim_point.y == 2089174012)
