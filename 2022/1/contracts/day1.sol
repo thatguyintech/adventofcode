@@ -69,21 +69,12 @@ contract Day1 {
   constructor() {}
 
   function setList(uint[] memory rawList) public {
-    uint index = 0;
     for (uint i = 0; i < rawList.length; i++) {
       uint item = rawList[i];
-      // console.log("item: ", item);
-      if (item == 0) {
-        index += 1;
-        elves += 1;
-      } else {
-        bags[index].items.push(item);
-        bags[index].sum += item;
-        // console.log("pushed: ", item);
-        // console.log("set sum: ",  bags[index].sum);
-      }
-      // console.log("");
+      bags[elves].items.push(item);
+      bags[elves].sum += item;
     }
+    elves += 1;
   }
 
   function getSum(uint index) public view returns (uint) {
@@ -94,11 +85,8 @@ contract Day1 {
     uint elf = 0;
     uint maxCals = 0;
     uint i;
-    // console.log("elves: ", elves);
     for (i = 1; i < elves + 2; i++) {
-      // console.log("i: ", i);
       Bag memory b = bags[i-1];
-      // console.log("b.sum: ", b.sum);
       if (b.sum > maxCals) {
         maxCals = b.sum;
         elf = i;

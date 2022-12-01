@@ -6,11 +6,12 @@ const r = readline.createInterface({
   input : f.createReadStream(user_file)
 });
 
-const rawList = [];
-let i = 0;
+const rawLists = [];
+let rawList = [];
 r.on('line', function (text) {
   if (text === "") {
-    rawList.push(0);
+    rawLists.push(rawList);
+    rawList = [];
   } else {
     rawList.push(Number(text));
   }
@@ -19,8 +20,11 @@ r.on('line', function (text) {
 async function main() {
   const Day1 = await ethers.getContractFactory("Day1");
   const day1 = await Day1.deploy();
-  await day1.setList(rawList);
-  console.log(await day1.elfWithLargestBag());
+  for (const list of rawLists) {
+    await day1.setList(list);
+  }
+  console.log("elf with largest bag: ", await day1.elfWithLargestBag());
+  console.log("total Calories carried by elf: ", await day1.getSum(await day1.elfWithLargestBag() - 1));
 }
 
 main()
