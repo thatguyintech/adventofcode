@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
+import "hardhat/console.sol";
+
 // The jungle must be too overgrown and difficult to navigate in vehicles or
 // access from the air; the Elves' expedition traditionally goes on foot. As
 // your boats approach land, the Elves begin taking inventory of their supplies.
@@ -53,41 +55,56 @@ pragma solidity >=0.8.0;
 // Find the Elf carrying the most Calories.
 // How many total Calories is that Elf carrying?
 
-struct bagStruct {
-  // each item is represented by calories
-  uint[] items;
-  uint sum;
-}
 
 contract Day1 {
+  struct Bag {
+    // each item is represented by calories
+    uint sum;
+    uint[] items;
+  }
   // each index of the bag in the array represents a distinct Elf
-  bagStruct[] bags; 
+  mapping (uint => Bag) public bags;
+  uint elves = 0;
   
-  constructor(uint[] memory rawList) {
+  constructor() {}
+
+  function setList(uint[] memory rawList) public {
     uint index = 0;
     for (uint i = 0; i < rawList.length; i++) {
-      uint item = rawList[0];
+      uint item = rawList[i];
+      // console.log("item: ", item);
       if (item == 0) {
         index += 1;
+        elves += 1;
       } else {
         bags[index].items.push(item);
         bags[index].sum += item;
+        // console.log("pushed: ", item);
+        // console.log("set sum: ",  bags[index].sum);
       }
+      // console.log("");
     }
+  }
+
+  function getSum(uint index) public view returns (uint) {
+    return bags[index].sum;
   }
 
   function elfWithLargestBag() public view returns (uint) {
     uint elf = 0;
     uint maxCals = 0;
     uint i;
-    for (i = 0; i < bags.length; i++) {
-      bagStruct memory b = bags[i];
-      b.sum = sumItems(b.items);
+    // console.log("elves: ", elves);
+    for (i = 1; i < elves + 2; i++) {
+      // console.log("i: ", i);
+      Bag memory b = bags[i-1];
+      // console.log("b.sum: ", b.sum);
       if (b.sum > maxCals) {
+        maxCals = b.sum;
         elf = i;
       }
     }
-    return i;
+    return elf;
   }
 
   function sumItems(uint[] memory items) public pure returns (uint) {
